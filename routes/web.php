@@ -35,10 +35,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories', [ManagementController::class, 'categories'])->name('categories');
     Route::get('/create-category', [ManagementController::class, 'create_category'])->name('category.create');
     Route::post('/create-category', [ManagementController::class, 'store_category'])->name('category.store');
+    Route::get('/edit-category/{id}', [ManagementController::class, 'edit_category'])->name('category.edit');
+    Route::patch('/update-category/{id}', [ManagementController::class, 'update_category'])->name('category.update');
+    Route::get('/delete-category/{id}', [ManagementController::class, 'delete_category'])->name('category.delete');
 
     Route::get('/contacts', [ManagementController::class, 'contacts'])->name('contacts');
     Route::get('/create-contact', [ManagementController::class, 'create_contact'])->name('contact.create');
     Route::post('/create-contact', [ManagementController::class, 'store_contact'])->name('contact.store');
+    Route::get('/edit-contact/{id}', [ManagementController::class, 'edit_contact'])->name('contact.edit');
+    Route::post('/update-contact/{id}', [ManagementController::class, 'update_contact'])->name('contact.update');
+    Route::get('/delete-contact/{id}', [ManagementController::class, 'delete_contact'])->name('contact.delete');
+
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
