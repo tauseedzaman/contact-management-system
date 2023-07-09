@@ -30,6 +30,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/categories', [ManagementController::class, 'categories'])->name('categories');
@@ -45,8 +46,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/edit-contact/{id}', [ManagementController::class, 'edit_contact'])->name('contact.edit');
     Route::patch('/update-contact/{id}', [ManagementController::class, 'update_contact'])->name('contact.update');
     Route::get('/delete-contact/{id}', [ManagementController::class, 'delete_contact'])->name('contact.delete');
-
-
+    Route::get('/export-contact', [ManagementController::class, 'export_contacts'])->name('contact.export');
+    Route::get('/import-contact', [ManagementController::class, 'import_contact'])->name('contact.import');
+    Route::post('/import-contact', [ManagementController::class, 'import_contacts'])->name('contact.import.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

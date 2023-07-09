@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ContactsExport;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Imports\ContactsImport;
 use App\Models\Category;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Str;
+use Excel;
 
 class ManagementController extends Controller
 {
@@ -35,27 +38,27 @@ class ManagementController extends Controller
         return redirect()->route("categories")->with("message", $cat->name . " category created successfully");
     }
 
-    public function edit_category($id)
+    public function edit_category($uuid)
     {
         return Inertia::render('Category/Edit-Category', [
-            'category' => Category::findOrFail($id),
+            'category' => Category::where("uuid", $uuid)->first(),
         ]);
     }
 
-    public function update_category(Request $request, $id)
+    public function update_category(Request $request, $uuid)
     {
         $request->validate([
             "name" => "required|unique:categories,name,except,id"
         ]);
-        $cat = Category::findOrFail($id);
+        $cat = Category::where("uuid", $uuid)->first();
         $cat->name = $request->name;
         $cat->save();
         return redirect()->route("categories")->with("message", $cat->name . " category updated successfully");
     }
 
-    public function delete_category($id)
+    public function delete_category($uuid)
     {
-        $cat = Category::findOrFail($id);
+        $cat = Category::where("uuid", $uuid)->first();
         $cat->delete();
         return redirect()->route("categories")->with("message", $cat->name . " category deleted successfully");
     }
@@ -101,14 +104,14 @@ class ManagementController extends Controller
     public function edit_contact($uuid)
     {
         return Inertia::render('Edit-Contact', [
-            'contact' => Contact::where("uuid",$uuid)->first(),
+            'contact' => Contact::where("uuid", $uuid)->first(),
             'categories' => Category::latest()->get(),
         ]);
     }
 
     public function update_contact(Request $request, $uuid)
     {
-        $data = Contact::where("uuid",$uuid)->first();
+        $data = Contact::where("uuid", $uuid)->first();
         $data->name = $request->name;
         $data->email = $request->email;
         $data->phone = $request->phone;
@@ -121,8 +124,30 @@ class ManagementController extends Controller
 
     public function delete_contact($uuid)
     {
-        $data = Contact::where("uuid",$uuid)->first();
+        $data = Contact::where("uuid", $uuid)->first();
         $data->delete();
         return redirect()->route("contacts")->with("message", $data->name . " Contact deleted successfully");
+    }
+
+    public function export_contacts()
+    {
+        return Excel::download(new ContactsExport, 'Contacts.xlsx');
+    }
+
+    public function import_contact()
+    {
+        return Inertia::render("Import-Contact");
+    }
+    public function import_contacts(Request $request)
+    {
+
+
+        $request->validate([
+            "file" => "file|mimes:xlsx,csv"
+        ]);
+
+        Excel::import(new ContactsImport, $request->file("file"));
+
+        return redirect('/')->with('message', 'Contacts Imported successfully');
     }
 }

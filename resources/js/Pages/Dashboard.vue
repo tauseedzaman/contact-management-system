@@ -5,8 +5,8 @@ defineProps({
     contacts: {
         type: Array,
     },
-    message:{
-        type:String
+    message: {
+        type: String
     }
 });
 </script>
@@ -22,8 +22,16 @@ defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
+                        <a target="_blank" href="/export-contact"
+                            class="mx-3 bg-green-500 hover:bg-green-700 text-white mb-2 w-42 font-bold py-2 px-4 rounded-full float-right">
+                            Export Contacts
+                        </a>
+                        <Link :href="route('contact.import')"
+                            class="mx-3 bg-cyan-500 hover:bg-cyan-700 text-white mb-2 w-42 font-bold py-2 px-4 rounded-full float-right">
+                        Import Contacts
+                        </Link>
                         <Link :href="route('contact.create')"
-                            class="bg-blue-500 hover:bg-blue-700 text-white mb-2 w-42 font-bold py-2 px-4 rounded-full float-right">
+                            class="mx-3 bg-blue-500 hover:bg-blue-700 text-white mb-2 w-42 font-bold py-2 px-4 rounded-full float-right">
                         Create Contact
                         </Link>
 
@@ -31,7 +39,7 @@ defineProps({
                             class="flex text-lg items-center justify-center w-full bg-blue-200 p-3 font-medium text-sm text-green-600">
                             {{ message }}
                         </div>
-                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
