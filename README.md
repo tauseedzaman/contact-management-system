@@ -1,12 +1,43 @@
-### Contact Management System
+# Contacts Management System
 
-this Contact Management System is developed with
+This Software is responsible for managing contacts just like google contacts and it developed with
 1. Laravel
 2. Inertia
 3. Vue
 4. Tailwind
 
-##Screenshots
+# Installation
+
+`
+git clone https://github.com/tauseedzaman/contact-management-system
+`
+
+`
+cd contact-management-system
+`
+
+`
+composer install
+`
+
+`
+php artisan migrate
+`
+
+`
+php artisan key:generate
+`
+
+`
+npm install && npm run dev
+`
+
+`
+php artisan serve
+`
+
+
+#Screenshots
 - Categories page
   
 ![image](https://github.com/tauseedzaman/contact-management-system/assets/64689921/542179ce-f536-4a51-a24c-bd50d5fbc869)
