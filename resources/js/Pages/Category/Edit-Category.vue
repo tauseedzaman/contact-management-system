@@ -16,7 +16,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.patch(route('category.update', props.category.id))
+    form.patch(route('category.update', props.category.uuid))
 };
 
 </script>

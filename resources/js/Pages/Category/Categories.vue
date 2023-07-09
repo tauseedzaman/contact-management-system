@@ -10,6 +10,7 @@ defineProps({
         type: String,
     }
 });
+
 </script>
 
 <template>
@@ -65,10 +66,10 @@ defineProps({
                                         {{ category.contacts_count }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <Link :href="route('category.edit', category.id)"
+                                        <Link :href="route('category.edit', category.uuid)"
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1">Edit
                                         </Link>
-                                        <Link :href="route('category.delete', category.id)"
+                                        <Link :href="route('category.delete', category.uuid)"
                                             class="font-medium text-red-600 dark:text-red-500 hover:underline mx-1">Delete
                                         </Link>
                                     </td>

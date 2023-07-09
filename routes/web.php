@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/create-contact', [ManagementController::class, 'create_contact'])->name('contact.create');
     Route::post('/create-contact', [ManagementController::class, 'store_contact'])->name('contact.store');
     Route::get('/edit-contact/{id}', [ManagementController::class, 'edit_contact'])->name('contact.edit');
-    Route::post('/update-contact/{id}', [ManagementController::class, 'update_contact'])->name('contact.update');
+    Route::patch('/update-contact/{id}', [ManagementController::class, 'update_contact'])->name('contact.update');
     Route::get('/delete-contact/{id}', [ManagementController::class, 'delete_contact'])->name('contact.delete');
 
 

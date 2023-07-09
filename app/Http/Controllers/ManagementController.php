@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
+use Str;
 
 class ManagementController extends Controller
 {
@@ -29,7 +29,8 @@ class ManagementController extends Controller
             "name" => "required|unique:categories,name,except,id"
         ]);
         $cat = Category::create([
-            "name" => $request->name
+            "name" => $request->name,
+            "uuid" => Str::uuid()
         ]);
         return redirect()->route("categories")->with("message", $cat->name . " category created successfully");
     }
@@ -61,15 +62,67 @@ class ManagementController extends Controller
 
     public function contacts()
     {
-        return Inertia::render('dashboard', [
-            'contacts' => Contact::get()
+        return Inertia::render('Dashboard', [
+            'contacts' => Contact::with("category")->get(),
+            'message' => session("message")
         ]);
     }
 
     public function create_contact()
     {
-        return Inertia::render("create-contact", [
+        return Inertia::render("Create-Contact", [
             "categories" => Category::latest()->get()
         ]);
+    }
+
+    public function store_contact(Request $request)
+    {
+
+        $request->validate([
+            "name" => "required|unique:contacts,name,except,id",
+            "email" => "sometimes|unique:contacts,email,except,id",
+            "phone" => "sometimes|unique:contacts,phone,except,id",
+            "address" => "sometimes|unique:contacts,address,except,id",
+            "category" => "required|exists:categories,id",
+        ]);
+
+        $Contact = Contact::create([
+            "user_id" => auth()->id(),
+            "uuid" => Str::uuid(),
+            "name" => $request->name,
+            "email" => $request->email,
+            "phone" => $request->phone,
+            "address" => $request->address,
+            "category_id" => $request->category,
+        ]);
+        return redirect()->route("contacts")->with("message", $Contact->name . " Contact created successfully");
+    }
+
+    public function edit_contact($uuid)
+    {
+        return Inertia::render('Edit-Contact', [
+            'contact' => Contact::where("uuid",$uuid)->first(),
+            'categories' => Category::latest()->get(),
+        ]);
+    }
+
+    public function update_contact(Request $request, $uuid)
+    {
+        $data = Contact::where("uuid",$uuid)->first();
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->phone = $request->phone;
+        $data->address = $request->address;
+        $data->category_id = $request->category;
+        $data->save();
+
+        return redirect()->route("contacts")->with("message", $data->name . " Contact updated successfully");
+    }
+
+    public function delete_contact($uuid)
+    {
+        $data = Contact::where("uuid",$uuid)->first();
+        $data->delete();
+        return redirect()->route("contacts")->with("message", $data->name . " Contact deleted successfully");
     }
 }

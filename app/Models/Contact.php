@@ -11,10 +11,11 @@ class Contact extends Model
     use HasFactory;
     protected $fillable = [
         "user_id",
+        "uuid",
         "category_id",
         "name",
         "email",
-        "email",
+        "phone",
         "address",
     ];
 

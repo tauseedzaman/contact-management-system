@@ -10,7 +10,8 @@ class Category extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "name"
+        "name",
+        "uuid"
     ];
     /**
      * Get all of the contacts for the Category
