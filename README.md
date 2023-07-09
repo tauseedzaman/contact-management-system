@@ -2,7 +2,7 @@
 
 this Contact Management System is developed with
 1. Laravel
-2. Interia
+2. Inertia
 3. Vue
 4. Tailwind
 
